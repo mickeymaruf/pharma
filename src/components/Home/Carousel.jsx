@@ -1,7 +1,7 @@
 import React from 'react';
-import BannerImage1 from '../../assets/BannerImage1.jpg'
-import BannerImage2 from '../../assets/BannerImage2.jpg'
-import BannerImage3 from '../../assets/BannerImage3.jpg'
+import banner1 from '../../assets/banner1.jpg'
+import banner2 from '../../assets/banner2.jpg'
+import banner3 from '../../assets/banner3.jpg'
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs'
 
 const Carousel = () => {
@@ -11,7 +11,7 @@ const Carousel = () => {
             slogan: 'Awesome Smiles',
             title: 'Great Care',
             desc: "Cultivate one to one customer service with robust ideas. Dynamically innovate resource leveling customer service for state of the art customer service.",
-            image: BannerImage1,
+            image: banner1,
             prev: 3,
             next: 2
         },
@@ -20,7 +20,7 @@ const Carousel = () => {
             slogan: 'Awesome Smiles',
             title: 'Great Care',
             desc: "Cultivate one to one customer service with robust ideas. Dynamically innovate resource leveling customer service for state of the art customer service.",
-            image: BannerImage2,
+            image: banner2,
             prev: 1,
             next: 3
         },
@@ -29,13 +29,13 @@ const Carousel = () => {
             slogan: 'Awesome Smiles',
             title: 'Great Care',
             desc: "Cultivate one to one customer service with robust ideas. Dynamically innovate resource leveling customer service for state of the art customer service.",
-            image: BannerImage3,
+            image: banner3,
             prev: 2,
             next: 1
         }
     ]
     return (
-        <div className="carousel w-full">
+        <section className="carousel w-full">
 
             {
                 carouselItems.map(item => <div key={`slide${item._id}`} id={`slide${item._id}`} className="carousel-item relative w-full">
@@ -56,7 +56,7 @@ const Carousel = () => {
                 </div>
                 )
             }
-        </div>
+        </section>
     );
 };
 

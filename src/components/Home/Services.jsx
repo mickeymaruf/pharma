@@ -30,7 +30,7 @@ const Services = () => {
         }
     ]
     return (
-        <div className='w-10/12 mx-auto text-gray-600 mt-28'>
+        <section className='w-10/12 mx-auto text-gray-600 mt-28'>
             <h1 className='text-5xl text-primary font-playfair mb-2'>Be Proud Of Your Smile</h1>
             <small>
                 Seamlessly visualize quality intellectual capital without superior collaboration and idea<br />-sharing. Holistically pontificate installed base portals after maintainable products.
@@ -43,12 +43,12 @@ const Services = () => {
                         <small className='block my-1'>
                             {service.desc}
                         </small>
-                        <small className='flex items-center justify-center gap-5 text-theme font-medium'><Link>Read more</Link><BsChevronRight /></small>
+                        <small className='flex items-center justify-center gap-3 text-theme font-medium mt-3 text-primary'><Link>Read more</Link><BsChevronRight /></small>
                     </div>
                     )
                 }
             </div>
-        </div>
+        </section>
     );
 };
 

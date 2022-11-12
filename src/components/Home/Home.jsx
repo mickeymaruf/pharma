@@ -1,5 +1,6 @@
 import React from 'react';
 import Carousel from './Carousel';
+import GetAQuote from './GetAQuote';
 import Services from './Services';
 
 const Home = () => {
@@ -8,6 +9,7 @@ const Home = () => {
         <div>
             <Carousel />
             <Services />
+            <GetAQuote />
         </div>
     );
 };
