@@ -1,24 +1,7 @@
-/* width */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: rgb(165, 218, 223);
-    border-radius: 10px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
 .btn-theme {
-    @apply bg-slate-900 rounded-full px-5 py-2 font-medium;
+    @apply bg-gradient-to-r from-[#154867] to-[#115278] rounded-full px-5 py-2 text-sm;
+}
+
+.btn-white {
+    @apply bg-gradient-to-r bg-white text-[#115278] rounded-full px-5 py-2 text-sm;
 }
