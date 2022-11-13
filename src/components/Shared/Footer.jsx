@@ -29,7 +29,7 @@ const Footer = () => {
                             We are a friendly team of dentists, hygienists and receptionists who work together to ensure that you receive the best treatment you require.
                         </p>
                         <p className='font-playfair text-secondary text-base mt-3'>24/7 Emergency phone</p>
-                        <a className='flex gap-2 items-center mt-3 mb-[3px]' href=""><BsTelephoneFill className='text-secondary' /> 415-205-XXX0</a>
+                        <a className='flex gap-2 items-center mt-2 mb-[3px]' href=""><BsTelephoneFill className='text-secondary' /> 415-205-XXX0</a>
                         <a className='flex gap-2 items-center' href=""><BsTelephoneFill className='text-secondary' /> 515-305-XXX0</a>
                     </div>
                     <div>
@@ -55,30 +55,32 @@ const Footer = () => {
                     <div>
                         <p className='font-playfair text-[18px] mb-4'>Working Hours</p>
                         <table>
-                            <tr>
-                                <td>Monday</td>
-                                <td className='text-[#ffffffab]'>8AM - 9PM</td>
-                            </tr>
-                            <tr>
-                                <td>Tuesday</td>
-                                <td className='text-[#ffffffab]'>8AM - 9PM</td>
-                            </tr>
-                            <tr>
-                                <td>Wednesday</td>
-                                <td className='text-[#ffffffab]'>9AM - 6:30PM</td>
-                            </tr>
-                            <tr>
-                                <td>Thursday</td>
-                                <td className='text-[#ffffffab]'>8AM - 9PM</td>
-                            </tr>
-                            <tr>
-                                <td>Friday</td>
-                                <td className='text-[#ffffffab]'>8AM - 9PM</td>
-                            </tr>
-                            <tr>
-                                <td className='pr-5'>Saturday - Sunday</td>
-                                <td className='text-[#ffffffab]'>Closed</td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td>Monday</td>
+                                    <td className='text-[#ffffffab]'>8AM - 9PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday</td>
+                                    <td className='text-[#ffffffab]'>8AM - 9PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday</td>
+                                    <td className='text-[#ffffffab]'>9AM - 6:30PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday</td>
+                                    <td className='text-[#ffffffab]'>8AM - 9PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Friday</td>
+                                    <td className='text-[#ffffffab]'>8AM - 9PM</td>
+                                </tr>
+                                <tr>
+                                    <td className='pr-5'>Saturday - Sunday</td>
+                                    <td className='text-[#ffffffab]'>Closed</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </footer>

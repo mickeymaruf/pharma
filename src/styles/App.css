@@ -1,4 +1,8 @@
-.btn-theme {
+.btn-primary {
+    @apply bg-gradient-to-r from-[#24a49e] to-[#23C3BB] rounded-full px-5 py-2 text-sm;
+}
+
+.btn-secondary {
     @apply bg-gradient-to-r from-[#154867] to-[#115278] rounded-full px-5 py-2 text-sm;
 }
 

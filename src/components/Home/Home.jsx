@@ -2,6 +2,7 @@ import React from 'react';
 import Carousel from './Carousel';
 import GetAQuote from './GetAQuote';
 import Services from './Services';
+import Testimonials from './Testimonials';
 
 const Home = () => {
     
@@ -10,6 +11,7 @@ const Home = () => {
             <Carousel />
             <Services />
             <GetAQuote />
+            <Testimonials />
         </div>
     );
 };

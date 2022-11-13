@@ -38,7 +38,7 @@ const Navbar = () => {
                     <Link to="/"><li className={`hover:bg-white p-3 rounded hover:text-primary cursor-pointer ${location.pathname !== "/" && "text-secondary"}`}>Home</li></Link>
                     <Link to="/appointment"><li className={`hover:bg-white p-3 rounded hover:text-primary cursor-pointer ${location.pathname !== "/" && "text-secondary"}`}>Appointment</li></Link>
                     <Link to="/"><li className={`hover:bg-white p-3 rounded hover:text-primary cursor-pointer ${location.pathname !== "/" && "text-secondary"}`}>Contact</li></Link>
-                    <li><button className='btn-theme text-white'>Get Started</button></li>
+                    <li><button className='btn-secondary text-white'>Get Started</button></li>
                 </ul>
             </nav>
         </header>

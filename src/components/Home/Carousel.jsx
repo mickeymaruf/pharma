@@ -49,7 +49,7 @@ const Carousel = () => {
                         <h1 className='text-6xl font-bold'>Great Care</h1>
                         <small className='block w-[48%] mt-3'>Cultivate one to one customer service with robust ideas. Dynamically innovate resource leveling customer service for state of the art customer service.</small>
                         <div className='mt-8'>
-                            <button className='btn-theme mr-3 py-3 px-6'>View Our Services</button>
+                            <button className='btn-secondary mr-3 py-3 px-6'>View Our Services</button>
                             <button className='btn-white py-3 px-6'>Denticare solutions</button>
                         </div>
                     </div>

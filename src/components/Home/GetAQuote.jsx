@@ -23,7 +23,7 @@ const GetAQuote = () => {
                     </p>
                     <div className='my-6 flex gap-3 mb-10'>
                         <input type="email" placeholder="Type here" className="input input-bordered w-full rounded-full max-w-xs" />
-                        <button className='btn-theme'>Subscribe Now</button>
+                        <button className='btn-secondary'>Subscribe Now</button>
                     </div>
                     <p className="text-xs">
                         By subscribing to our newsletter, you accept enterprise-wide strategic theme areas with functionalized infrastructures.
