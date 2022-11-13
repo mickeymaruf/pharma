@@ -5,3 +5,7 @@
 .btn-white {
     @apply bg-gradient-to-r bg-white text-[#115278] rounded-full px-5 py-2 text-sm;
 }
+
+td {
+    padding-bottom: 5px;
+}

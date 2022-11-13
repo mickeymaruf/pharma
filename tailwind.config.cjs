@@ -9,7 +9,7 @@ module.exports = {
       {
         pharma: {
           primary: "#23C3BB",
-          theme: "#115278",
+          secondary: "#115278",
         }
       }
     ]
