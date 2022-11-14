@@ -15,7 +15,7 @@ const Footer = () => {
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 paddingTop: "26rem",
-                marginTop: "-10rem",
+                marginTop: "-20rem",
             }}
         >
             <div className="w-9/12 mx-auto text-white flex flex-col items-center">

@@ -112,6 +112,7 @@ const Appointment = () => {
                     <BookAppointModal
                         appointment={appointment}
                         selectedDate={selectedDate}
+                        setAppointment={setAppointment}
                     />
                 }
             </div>
