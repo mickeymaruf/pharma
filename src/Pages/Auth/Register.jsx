@@ -1,24 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import FieldError from '../../components/FieldError';
 import { useAuth } from '../../contexts/AuthProvider';
+import SocialAuth from './SocialAuth';
+import toast from 'react-hot-toast';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { createUser, updateUser } = useAuth();
+    const [signUpErr, setSignUpErr] = useState(null);
     const onSubmit = data => {
         const { name, email, password } = data;
         createUser(email, password)
             .then(result => {
                 updateUser(name)
-                    .then(() => {
-                        // Profile updated!
-                    }).catch(err => {
-                        console.log(err);
-                    })
+                    .then(() => toast.success('User created successfully!'))
+                    .catch(err => setSignUpErr(err.message));
             })
-            .catch(err => console.log(err));
+            .catch(err => setSignUpErr(err.message));
     };
 
     return (
@@ -63,15 +63,13 @@ const Register = () => {
                     <div className="form-control mt-2">
                         <button className="btn-secondary py-[14px] text-white">Register</button>
                     </div>
+                    <p className='mb-2'>
+                        {
+                            signUpErr && <FieldError message={signUpErr} />
+                        }
+                    </p>
                     <p className='text-sm text-center'>Already have an account? <Link to="/login" className='underline'>Login</Link></p>
-                    <div className='flex items-center gap-5 my-2 px-3'>
-                        <div className='w-full h-px bg-[#1152783b] rounded-full'></div>
-                        <div>OR</div>
-                        <div className='w-full h-px bg-[#1152783b] rounded-full'></div>
-                    </div>
-                    <div className="form-control mt-1">
-                        <button className="border border-secondary text-secondary py-[10px] rounded-full hover:bg-secondary hover:text-white duration-100">Continue with Google</button>
-                    </div>
+                    <SocialAuth />
                 </form>
 
             </div>

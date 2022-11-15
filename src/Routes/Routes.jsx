@@ -4,6 +4,8 @@ import Login from '../Pages/Auth/Login'
 import Register from '../Pages/Auth/Register'
 import Home from "../Pages/Home/Home"
 import Root from "../layouts/Root"
+import Dashboard from '../Pages/Dashboard/Dashboard'
+import RequireAuth from './RequireAuth'
 
 const router = createBrowserRouter([
     {
@@ -25,8 +27,12 @@ const router = createBrowserRouter([
             {
                 path: '/register',
                 element: <Register />
-            },
+            }
         ]
+    },
+    {
+        path: '/dashboard',
+        element: <RequireAuth><Dashboard /></RequireAuth>
     }
 ])
 

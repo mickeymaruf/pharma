@@ -42,7 +42,10 @@ const Navbar = () => {
                     <Link to="/"><li className={`hover:bg-white p-3 rounded hover:text-primary cursor-pointer ${location.pathname !== "/" && "text-secondary"}`}>Contact</li></Link>
                     {
                         user?.uid ?
-                            <li><button onClick={logOut} className='btn-secondary text-white'>Log Out</button></li>
+                            <>
+                                <Link to="/dashboard"><li className={`hover:bg-white p-3 rounded hover:text-primary cursor-pointer ${location.pathname !== "/" && "text-secondary"}`}>Dashboard</li></Link>
+                                <li><button onClick={logOut} className='btn-secondary text-white'>Log Out</button></li>
+                            </>
                             :
                             <li><Link to="/login"><button className='btn-secondary text-white'>Get Started</button></Link></li>
                     }

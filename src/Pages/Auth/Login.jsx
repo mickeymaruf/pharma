@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import FieldError from '../../components/FieldError';
 import { useAuth } from '../../contexts/AuthProvider';
+import SocialAuth from './SocialAuth';
+
+import ForgetPasswordModal from './ForgetPasswordModal';
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { signIn } = useAuth();
     const [loginErr, setLoginErr] = useState(null);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [showModal, setShowModal] = useState(false);
     const onSubmit = data => {
         setLoginErr(null);
         const { email, password } = data;
         signIn(email, password)
             .then(result => {
-                console.log(result.user);
+                navigate(location.state?.from?.pathname || "/", { replace: true });
             })
             .catch(err => setLoginErr(err.message));
     };
@@ -45,7 +51,7 @@ const Login = () => {
                             errors.password && <FieldError message={errors.password?.message} />
                         }
                         <label className="my-2">
-                            <Link className="label-text-alt text-secondary hover:underline">Forgot password?</Link>
+                            <label onClick={() => setShowModal(true)} htmlFor="forget_password_modal" className="label-text-alt text-secondary hover:underline cursor-pointer">Forgot password?</label>
                         </label>
                     </div>
                     <div className="form-control mt-1">
@@ -57,16 +63,9 @@ const Login = () => {
                         }
                     </p>
                     <p className='text-sm text-center'>New to Pharma? <Link to="/register" className='underline'>Create new account</Link></p>
-                    <div className='flex items-center gap-5 my-2 px-3'>
-                        <div className='w-full h-px bg-[#1152783b] rounded-full'></div>
-                        <div>OR</div>
-                        <div className='w-full h-px bg-[#1152783b] rounded-full'></div>
-                    </div>
-                    <div className="form-control mt-1">
-                        <button className="border border-secondary text-secondary py-[10px] rounded-full hover:bg-secondary hover:text-white duration-100">Continue with Google</button>
-                    </div>
+                    <SocialAuth />
                 </form>
-
+                {showModal && <ForgetPasswordModal setShowModal={setShowModal} />}
             </div>
         </div>
     );
