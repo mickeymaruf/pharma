@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/logo.png'
 import title from '../../assets/title.png'
+import { useAuth } from '../../contexts/AuthProvider';
 
 const Navbar = () => {
+    const { user, logOut } = useAuth();
     const location = useLocation();
     const [navSize, setnavSize] = useState("60px");
     const [navColor, setnavColor] = useState("transparent");
@@ -38,7 +40,12 @@ const Navbar = () => {
                     <Link to="/"><li className={`hover:bg-white p-3 rounded hover:text-primary cursor-pointer ${location.pathname !== "/" && "text-secondary"}`}>Home</li></Link>
                     <Link to="/appointment"><li className={`hover:bg-white p-3 rounded hover:text-primary cursor-pointer ${location.pathname !== "/" && "text-secondary"}`}>Appointment</li></Link>
                     <Link to="/"><li className={`hover:bg-white p-3 rounded hover:text-primary cursor-pointer ${location.pathname !== "/" && "text-secondary"}`}>Contact</li></Link>
-                    <li><Link to="/login"><button className='btn-secondary text-white'>Get Started</button></Link></li>
+                    {
+                        user?.uid ?
+                            <li><button onClick={logOut} className='btn-secondary text-white'>Log Out</button></li>
+                            :
+                            <li><Link to="/login"><button className='btn-secondary text-white'>Get Started</button></Link></li>
+                    }
                 </ul>
             </nav>
         </header>

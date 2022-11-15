@@ -2,11 +2,23 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import FieldError from '../../components/FieldError';
+import { useAuth } from '../../contexts/AuthProvider';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const { createUser, updateUser } = useAuth();
     const onSubmit = data => {
-        console.log(data);
+        const { name, email, password } = data;
+        createUser(email, password)
+            .then(result => {
+                updateUser(name)
+                    .then(() => {
+                        // Profile updated!
+                    }).catch(err => {
+                        console.log(err);
+                    })
+            })
+            .catch(err => console.log(err));
     };
 
     return (
@@ -29,7 +41,7 @@ const Register = () => {
                         </label>
                         <input type="text" {...register('email', {
                             required: "Email is required",
-                            pattern: {value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, message: "Please provide a valid email!"}
+                            pattern: { value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, message: "Please provide a valid email!" }
                         })} placeholder="email" className="input input-bordered border-[#1152783b]" />
                         {
                             errors.email && <FieldError message={errors.email?.message} />

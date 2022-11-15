@@ -48,7 +48,7 @@ const Appointment = () => {
     }, [])
 
     return (
-        <section>
+        <section className='pb-20'>
             <div className='text-secondary mt-[60px] grid grid-cols-12 items-start'
                 style={{
                     background: `url(${chairBg})`,
