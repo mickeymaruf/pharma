@@ -1,10 +1,18 @@
 import React from 'react';
 import { format } from 'date-fns';
 import { useForm } from "react-hook-form";
+import { useAuth } from '../../contexts/AuthProvider';
 
 const BookAppointModal = ({ appointment, selectedDate, setAppointment }) => {
+    const { user } = useAuth();
     const { name, slots } = appointment;
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm({
+        defaultValues: {
+            patient: user?.displayName,
+            email: user?.email,
+            phone: user?.phoneNumber
+        }
+    });
     const onSubmit = data => {
         data.treatment = name;
         console.log(data)
@@ -27,7 +35,7 @@ const BookAppointModal = ({ appointment, selectedDate, setAppointment }) => {
                         <input {...register("patient", { required: true })} type="text" placeholder="Your name" className="input border-[#1152783b] w-full" />
                         <input {...register("email", { required: true })} type="text" placeholder="Your email address" className="input border-[#1152783b] w-full" />
                         <input {...register("phone", { required: true })} type="text" placeholder="Your phone no." className="input border-[#1152783b] w-full" />
-                        <input className='block w-full btn-secondary py-3 font-medium' type="submit" value="Submit" />
+                        <input className='block w-full btn-secondary py-3 font-medium text-white cursor-pointer' type="submit" value="Submit" />
                     </form>
                 </div>
             </div>
