@@ -43,8 +43,8 @@ const Testimonials = () => {
             <div className='mt-10'>
                 <Swiper
                     breakpoints={{
-                        // when window width is >= 480px
-                        480: {
+                        // when window width is >= 0px
+                        0: {
                             slidesPerView: 1,
                             spaceBetween: 30
                         },

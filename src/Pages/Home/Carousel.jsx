@@ -35,16 +35,15 @@ const Carousel = () => {
         }
     ]
     return (
-        <section className="carousel w-full">
-
+        <section className="carousel w-full h-[500px] lg:h-fit">
             {
                 carouselItems.map(item => <div key={`slide${item._id}`} id={`slide${item._id}`} className="carousel-item relative w-full">
-                    <img src={item.image} className="w-full" />
-                    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                    <img src={item.image} className="w-full object-cover" />
+                    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 z-20">
                         <a href={`#slide${item.prev}`} className="text-white text-3xl"><BsChevronLeft /></a>
                         <a href={`#slide${item.next}`} className="text-white text-3xl"><BsChevronRight /></a>
                     </div>
-                    <div className='text-white absolute top-1/2 -translate-y-1/2 left-28'>
+                    <div className='text-white absolute top-1/2 -translate-y-1/2 left-16 md:left-28'>
                         <h2 className='text-4xl text-slate-600 font-light'>Awesome Smiles</h2>
                         <h1 className='text-6xl font-bold'>Great Care</h1>
                         <small className='block w-[48%] mt-3'>Cultivate one to one customer service with robust ideas. Dynamically innovate resource leveling customer service for state of the art customer service.</small>

@@ -18,12 +18,12 @@ const Footer = () => {
                 marginTop: "-20rem",
             }}
         >
-            <div className="w-9/12 mx-auto text-white flex flex-col items-center">
+            <div className="w-9/12 mx-auto text-white flex flex-col items-center pt-36 lg:pt-0">
                 <Link to="/" className="text-xl flex items-center">
                     <img className='w-16' src={logo} alt="Pharma" />
                     <img className='w-20' src={title} alt="Pharma" />
                 </Link>
-                <footer className="grid grid-cols-4 mt-2 pb-10 pt-6 gap-16 text-xs border-t-2 border-[#ffffff35]">
+                <footer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-2 pb-10 pt-6 gap-16 text-xs border-t-2 border-[#ffffff35]">
                     <div>
                         <p className='leading-snug'>
                             We are a friendly team of dentists, hygienists and receptionists who work together to ensure that you receive the best treatment you require.

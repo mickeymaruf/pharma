@@ -28,6 +28,9 @@ const BookAppointModal = ({ appointment, date, setAppointment, refetch }) => {
                     setAppointment(null);
                     toast.success("Booking confirmed");
                     refetch();
+                } else {
+                    toast.error(data.message);
+                    setAppointment(null);
                 }
             })
     };

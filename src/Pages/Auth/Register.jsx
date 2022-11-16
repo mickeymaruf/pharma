@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import FieldError from '../../components/FieldError';
 import { useAuth } from '../../contexts/AuthProvider';
@@ -7,15 +7,20 @@ import SocialAuth from './SocialAuth';
 import toast from 'react-hot-toast';
 
 const Register = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const { createUser, updateUser } = useAuth();
     const [signUpErr, setSignUpErr] = useState(null);
+    const navigate = useNavigate();
     const onSubmit = data => {
         const { name, email, password } = data;
         createUser(email, password)
             .then(result => {
                 updateUser(name)
-                    .then(() => toast.success('User created successfully!'))
+                    .then(() => {
+                        toast.success('User created successfully!')
+                        reset();
+                        navigate("/");
+                    })
                     .catch(err => setSignUpErr(err.message));
             })
             .catch(err => setSignUpErr(err.message));
