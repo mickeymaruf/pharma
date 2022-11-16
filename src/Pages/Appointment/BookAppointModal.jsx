@@ -2,6 +2,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import { useForm } from "react-hook-form";
 import { useAuth } from '../../contexts/AuthProvider';
+import toast from 'react-hot-toast';
 
 const BookAppointModal = ({ appointment, selectedDate, setAppointment }) => {
     const { user } = useAuth();
@@ -15,8 +16,20 @@ const BookAppointModal = ({ appointment, selectedDate, setAppointment }) => {
     });
     const onSubmit = data => {
         data.treatment = name;
-        console.log(data)
-        setAppointment(null);
+        fetch('http://localhost:5000/bookings', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    setAppointment(null);
+                    toast.success("Booking confirmed");
+                }
+            })
     };
     return (
         <div className='text-secondary'>
@@ -32,9 +45,9 @@ const BookAppointModal = ({ appointment, selectedDate, setAppointment }) => {
                                 slots.map((slot, index) => <option value={slot} key={`slot${index}`}>{slot}</option>)
                             }
                         </select>
-                        <input {...register("patient", { required: true })} type="text" placeholder="Your name" className="input border-[#1152783b] w-full" />
-                        <input {...register("email", { required: true })} type="text" placeholder="Your email address" className="input border-[#1152783b] w-full" />
-                        <input {...register("phone", { required: true })} type="text" placeholder="Your phone no." className="input border-[#1152783b] w-full" />
+                        <input {...register("patient", { required: true })} type="text" placeholder="Your name" className="input w-full bg-gray-200" readOnly />
+                        <input {...register("email", { required: true })} type="text" placeholder="Your email address" className="input w-full bg-gray-200" readOnly />
+                        <input {...register("phone", { required: true })} type="text" placeholder="Your phone number" className="input border-[#1152783b] w-full" />
                         <input className='block w-full btn-secondary py-3 font-medium text-white cursor-pointer' type="submit" value="Submit" />
                     </form>
                 </div>
