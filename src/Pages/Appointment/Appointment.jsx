@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import clock from '../../assets/clock.png'
 import calendar from '../../assets/calendar.png'
 import car from '../../assets/car.png'
@@ -8,6 +8,9 @@ import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import BookAppointModal from './BookAppointModal';
 import AppointCard from './AppointCard';
+import { useQuery } from '@tanstack/react-query';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const appointmentSteps = [
     {
@@ -38,14 +41,12 @@ const appointmentSteps = [
 
 const Appointment = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [appointments, setAppointments] = useState([]);
     const [appointment, setAppointment] = useState(null);
 
-    useEffect(() => {
-        fetch('appointments.json')
-            .then(res => res.json())
-            .then(data => setAppointments(data))
-    }, [])
+    const { data: appointments, isLoading } = useQuery({
+        queryKey: ['appointments'],
+        queryFn: () => fetch('http://localhost:5000/appointments').then(res => res.json())
+    })
 
     return (
         <section className='pb-20'>
@@ -101,11 +102,20 @@ const Appointment = () => {
             </div>
             <div className='w-10/12 mx-auto pt-16 grid grid-cols-3 gap-8'>
                 {
-                    appointments.map(appointment => <AppointCard
-                        key={appointment._id}
-                        appointment={appointment}
-                        setAppointment={setAppointment}
-                    />)
+                    !appointments ?
+                        // Skeleton loading... 
+                        [...Array(6).keys()].map((item, idx) => <div key={'appoinmentsSkeleton' + idx} className='shadow-md border px-12 py-5 rounded-lg text-center'>
+                            <h4 className='text-lg font-medium text-primary mb-1'><Skeleton baseColor="#23C3BB" /> </h4>
+                            <p className='text-sm'><Skeleton /> </p>
+                            <p className='text-sm mb-2'><Skeleton /> </p>
+                            <label htmlFor="BookAppointModal" className="inline-block bg-[#11527832] px-20 rounded-full text-sm text-white py-3 mt-1 font-medium"><Skeleton /> </label>
+                        </div>)
+                        :
+                        appointments.map(appointment => <AppointCard
+                            key={appointment._id}
+                            appointment={appointment}
+                            setAppointment={setAppointment}
+                        />)
                 }
                 {
                     appointment &&
