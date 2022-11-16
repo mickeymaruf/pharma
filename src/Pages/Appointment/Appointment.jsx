@@ -9,8 +9,7 @@ import { DayPicker } from 'react-day-picker';
 import BookAppointModal from './BookAppointModal';
 import AppointCard from './AppointCard';
 import { useQuery } from '@tanstack/react-query';
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import AppointCardSkeleton from './AppointCardSkeleton';
 
 const appointmentSteps = [
     {
@@ -43,10 +42,18 @@ const Appointment = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [appointment, setAppointment] = useState(null);
 
-    const { data: appointments, isLoading } = useQuery({
-        queryKey: ['appointments'],
-        queryFn: () => fetch('http://localhost:5000/appointments').then(res => res.json())
+    const date = format(selectedDate, 'PP');
+
+    const { data: appointments = [], isLoading, refetch } = useQuery({
+        queryKey: ['appointments', date],
+        queryFn: () => fetch(`http://localhost:5000/appointments?date=${date}`)
+            .then(res => res.json())
     })
+
+    // Skeleton loading... 
+    if (isLoading) {
+        return <AppointCardSkeleton />
+    }
 
     return (
         <section className='pb-20'>
@@ -94,7 +101,7 @@ const Appointment = () => {
                                 selected={selectedDate}
                                 onSelect={setSelectedDate}
                             />
-                            <p className='text-center'>You picked <strong>{format(selectedDate, 'PP')}</strong></p>
+                            <p className='text-center'>You picked <strong>{date}</strong></p>
                         </div>
 
                     </div>
@@ -102,27 +109,19 @@ const Appointment = () => {
             </div>
             <div className='w-10/12 mx-auto pt-16 grid grid-cols-3 gap-8'>
                 {
-                    !appointments ?
-                        // Skeleton loading... 
-                        [...Array(6).keys()].map((item, idx) => <div key={'appoinmentsSkeleton' + idx} className='shadow-md border px-12 py-5 rounded-lg text-center'>
-                            <h4 className='text-lg font-medium text-primary mb-1'><Skeleton baseColor="#23C3BB" /> </h4>
-                            <p className='text-sm'><Skeleton /> </p>
-                            <p className='text-sm mb-2'><Skeleton /> </p>
-                            <label htmlFor="BookAppointModal" className="inline-block bg-[#11527832] px-20 rounded-full text-sm text-white py-3 mt-1 font-medium"><Skeleton /> </label>
-                        </div>)
-                        :
-                        appointments.map(appointment => <AppointCard
-                            key={appointment._id}
-                            appointment={appointment}
-                            setAppointment={setAppointment}
-                        />)
+                    appointments.map(appointment => <AppointCard
+                        key={appointment._id}
+                        appointment={appointment}
+                        setAppointment={setAppointment}
+                    />)
                 }
                 {
                     appointment &&
                     <BookAppointModal
                         appointment={appointment}
-                        selectedDate={selectedDate}
+                        date={date}
                         setAppointment={setAppointment}
+                        refetch={refetch}
                     />
                 }
             </div>

@@ -1,10 +1,9 @@
 import React from 'react';
-import { format } from 'date-fns';
 import { useForm } from "react-hook-form";
 import { useAuth } from '../../contexts/AuthProvider';
 import toast from 'react-hot-toast';
 
-const BookAppointModal = ({ appointment, selectedDate, setAppointment }) => {
+const BookAppointModal = ({ appointment, date, setAppointment, refetch }) => {
     const { user } = useAuth();
     const { name, slots } = appointment;
     const { register, handleSubmit } = useForm({
@@ -28,6 +27,7 @@ const BookAppointModal = ({ appointment, selectedDate, setAppointment }) => {
                 if (data.acknowledged) {
                     setAppointment(null);
                     toast.success("Booking confirmed");
+                    refetch();
                 }
             })
     };
@@ -39,7 +39,7 @@ const BookAppointModal = ({ appointment, selectedDate, setAppointment }) => {
                     <label htmlFor="BookAppointModal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <h3 className="text-lg font-bold mb-4">{name}</h3>
                     <form onSubmit={handleSubmit(onSubmit)} className='grid gap-3'>
-                        <input {...register('appointmentDate', { required: true })} type="text" className="input w-full bg-gray-200" defaultValue={format(selectedDate, 'PP')} readOnly />
+                        <input {...register('appointmentDate', { required: true })} type="text" className="input w-full bg-gray-200" defaultValue={date} readOnly />
                         <select {...register('slot', { required: true })} className="select border outline-0 border-[#1152783b] rounded-lg select-md w-full">
                             {
                                 slots.map((slot, index) => <option value={slot} key={`slot${index}`}>{slot}</option>)
