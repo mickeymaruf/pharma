@@ -4,10 +4,25 @@ require('dotenv').config();
 const app = express();
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const port = process.env.PORT || 5000;
+const jwt = require('jsonwebtoken');
 
 // middlewares
 app.use(cors());
 app.use(express.json());
+const verifyJWT = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).send({ status: 'unauthorized access' });
+    }
+    const token = authHeader.split(" ")[1];
+    jwt.verify(token, process.env.ACCESS_TOKEN, (err, decoded) => {
+        if (err) {
+            return res.status(403).send({ status: 'forbidden access' });
+        }
+        req.decoded = decoded;
+        next();
+    })
+}
 
 const uri = process.env.DB_URL;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -16,6 +31,7 @@ const run = async () => {
         const db = client.db("pharma");
         const appointmentCollection = db.collection("appointments");
         const bookingCollection = db.collection("bookings")
+        const userCollection = db.collection("users")
 
         app.get('/appointments', async (req, res) => {
             const date = req.query.date;
@@ -46,6 +62,35 @@ const run = async () => {
             }
             const result = await bookingCollection.insertOne(booking);
             res.send(result);
+        })
+        app.get('/bookings', verifyJWT, async (req, res) => {
+            const decodedEmail = req.decoded?.email;
+            if (decodedEmail !== req.query.email) {
+                return res.status(403).send({ status: 'forbidden access' });
+            }
+            const query = { email: req.query.email };
+            const bookings = await bookingCollection.find(query).toArray();
+            res.send(bookings);
+        })
+        // jwt
+        app.get('/jwt', async (req, res) => {
+            const email = req.query.email;
+            const user = await userCollection.findOne({ email: email });
+            if (user) {
+                const token = jwt.sign({ email }, process.env.ACCESS_TOKEN, { expiresIn: "1d" });
+                return res.send({ accessToken: token });
+            }
+            res.status(403).send({ accessToken: '' });
+        })
+        // users
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const result = await userCollection.insertOne(user);
+            res.send(result);
+        })
+        app.get('/users', async (req, res) => {
+            const users = await userCollection.find({}).toArray();
+            res.send(users);
         })
     } finally { }
 }
