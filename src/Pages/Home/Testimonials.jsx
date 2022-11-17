@@ -68,8 +68,6 @@ const Testimonials = () => {
                     navigation
                     spaceBetween={30}
                     slidesPerView={4}
-                    onSlideChange={() => console.log('slide change')}
-                    onSwiper={(swiper) => console.log(swiper)}
                 >
                     {
                         reviews.map(review => <SwiperSlide key={`review${review._id}`}>

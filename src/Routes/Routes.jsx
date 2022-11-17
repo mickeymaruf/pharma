@@ -6,6 +6,9 @@ import Home from "../Pages/Home/Home"
 import Root from "../layouts/Root"
 import Dashboard from '../Pages/Dashboard/Dashboard'
 import RequireAuth from './RequireAuth'
+import DashboardLayout from '../layouts/DashboardLayout'
+import MyAppointment from '../Pages/Dashboard/MyAppointment'
+import AllUsers from '../Pages/Dashboard/AllUsers'
 
 const router = createBrowserRouter([
     {
@@ -32,7 +35,17 @@ const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <RequireAuth><Dashboard /></RequireAuth>
+        element: <RequireAuth><DashboardLayout /></RequireAuth>,
+        children: [
+            {
+                path: "/dashboard",
+                element: <MyAppointment />
+            },
+            {
+                path: "/dashboard/allusers",
+                element: <AllUsers />
+            }
+        ]
     }
 ])
 

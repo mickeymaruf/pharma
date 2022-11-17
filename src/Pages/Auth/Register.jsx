@@ -5,26 +5,49 @@ import FieldError from '../../components/FieldError';
 import { useAuth } from '../../contexts/AuthProvider';
 import SocialAuth from './SocialAuth';
 import toast from 'react-hot-toast';
+import useAccessToken from '../../hooks/useAccessToken';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const { createUser, updateUser } = useAuth();
     const [signUpErr, setSignUpErr] = useState(null);
     const navigate = useNavigate();
+    const [userCreatedEmail, setUserCreatedEmail] = useState("");
+    const [token] = useAccessToken(userCreatedEmail);
+    if (token) {
+        navigate("/");
+    }
+
     const onSubmit = data => {
         const { name, email, password } = data;
         createUser(email, password)
             .then(result => {
+                const user = result.user;
                 updateUser(name)
                     .then(() => {
+                        saveUser(name, email)
                         toast.success('User created successfully!')
                         reset();
-                        navigate("/");
                     })
                     .catch(err => setSignUpErr(err.message));
             })
             .catch(err => setSignUpErr(err.message));
     };
+
+    const saveUser = (name, email) => {
+        const user = { name, email };
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setUserCreatedEmail(email);
+            })
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center py-28">
@@ -76,7 +99,6 @@ const Register = () => {
                     <p className='text-sm text-center'>Already have an account? <Link to="/login" className='underline'>Login</Link></p>
                     <SocialAuth />
                 </form>
-
             </div>
         </div>
     );

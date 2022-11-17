@@ -6,6 +6,7 @@ import { useAuth } from '../../contexts/AuthProvider';
 import SocialAuth from './SocialAuth';
 
 import ForgetPasswordModal from './ForgetPasswordModal';
+import useAccessToken from '../../hooks/useAccessToken';
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -14,12 +15,19 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [showModal, setShowModal] = useState(false);
+
+    const [loginUserEmail, setLoginUserEmail] = useState("");
+    const [token] = useAccessToken(loginUserEmail);
+    if (token) {
+        navigate(location.state?.from?.pathname || "/", { replace: true });
+    }
+
     const onSubmit = data => {
         setLoginErr(null);
         const { email, password } = data;
         signIn(email, password)
             .then(result => {
-                navigate(location.state?.from?.pathname || "/", { replace: true });
+                setLoginUserEmail(email);
             })
             .catch(err => setLoginErr(err.message));
     };
