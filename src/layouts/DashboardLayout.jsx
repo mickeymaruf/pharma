@@ -1,8 +1,12 @@
 import { Link, Outlet } from 'react-router-dom';
 import React from 'react';
 import DashboardNav from '../Pages/Shared/DashboardNav';
+import useAdmin from '../hooks/useAdmin';
+import { useAuth } from '../contexts/AuthProvider';
 
 const DashboardLayout = () => {
+    const { user } = useAuth();
+    const [idAdmin] = useAdmin(user?.email);
     return (
         <div>
             <DashboardNav />
@@ -15,7 +19,10 @@ const DashboardLayout = () => {
                     <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
                     <ul className="menu p-4 w-64 bg-white">
                         <li><Link to="/dashboard">My Appointments</Link></li>
-                        <li><Link to="/dashboard/allusers">All Users</Link></li>
+                        {
+                            idAdmin &&
+                            <li><Link to="/dashboard/allusers">All Users</Link></li>
+                        }
                     </ul>
                 </div>
             </div>

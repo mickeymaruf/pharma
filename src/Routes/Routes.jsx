@@ -9,6 +9,7 @@ import RequireAuth from './RequireAuth'
 import DashboardLayout from '../layouts/DashboardLayout'
 import MyAppointment from '../Pages/Dashboard/MyAppointment'
 import AllUsers from '../Pages/Dashboard/AllUsers'
+import AdminRoute from './AdminRoute'
 
 const router = createBrowserRouter([
     {
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/dashboard/allusers",
-                element: <AllUsers />
+                element: <AdminRoute><AllUsers /></AdminRoute>
             }
         ]
     }
