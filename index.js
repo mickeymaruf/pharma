@@ -32,6 +32,7 @@ const run = async () => {
         const appointmentCollection = db.collection("appointments");
         const bookingCollection = db.collection("bookings")
         const userCollection = db.collection("users")
+        const doctorsCollection = db.collection("doctors")
 
         app.get('/appointments', async (req, res) => {
             const date = req.query.date;
@@ -47,6 +48,10 @@ const run = async () => {
                 appointment.slots = remainingSlots;
             })
             res.send(appointments);
+        })
+        app.get('/appointmentSpecialty', async (req, res) => {
+            const reslut = await appointmentCollection.find({}).project({ name: 1 }).toArray();
+            res.send(reslut);
         })
         // bookings
         app.post('/bookings', async (req, res) => {
@@ -88,7 +93,19 @@ const run = async () => {
             const result = await userCollection.insertOne(user);
             res.send(result);
         })
-        app.get('/users', async (req, res) => {
+        app.get('/users', verifyJWT, async (req, res) => {
+            const decodedEmail = req.decoded?.email;
+            const email = req.query.email;
+            if (decodedEmail !== email) {
+                return res.status(403).send({ message: 'forbidden access' });
+            }
+
+            // verify admin
+            const user = await userCollection.findOne({ email });
+            if (user.role !== "admin") {
+                return res.status(403).send([]);
+            }
+
             const users = await userCollection.find({}).toArray();
             res.send(users);
         })
@@ -114,6 +131,16 @@ const run = async () => {
             }
             const result = await userCollection.updateOne(query, updateDoc, options);
             res.send(result);
+        })
+        // doctors
+        app.post('/doctors', async (req, res) => {
+            const doctor = req.body;
+            const result = await doctorsCollection.insertOne(doctor);
+            res.send(result);
+        })
+        app.get('/doctors', async (req, res) => {
+            const doctors = await doctorsCollection.find({}).toArray();
+            res.send(doctors);
         })
     } finally { }
 }
