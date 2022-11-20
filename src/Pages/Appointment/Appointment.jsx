@@ -27,7 +27,7 @@ const Appointment = () => {
 
     return (
         <section className='pb-20'>
-            <div className='text-secondary mt-[60px] grid grid-cols-12 items-start'
+            <div className='text-secondary mt-[60px] pb-14 pt-20'
                 style={{
                     background: `url(${chairBg})`,
                     backgroundRepeat: "no-repeat",
@@ -35,18 +35,15 @@ const Appointment = () => {
                     backgroundPosition: "right",
                 }}
             >
-                <div>
+                <div className='w-10/12 mx-auto'>
                     <div>
-                        <div>
-                            <DayPicker
-                                className='shadow-lg inline-block p-8 border rounded-xl'
-                                mode="single"
-                                selected={selectedDate}
-                                onSelect={setSelectedDate}
-                            />
-                            <p className='text-center'>You picked <strong>{date}</strong></p>
-                        </div>
-
+                        <DayPicker
+                            className='shadow-lg inline-block p-8 border rounded-xl'
+                            mode="single"
+                            selected={selectedDate}
+                            onSelect={setSelectedDate}
+                        />
+                        <p>You picked <strong>{date}</strong></p>
                     </div>
                 </div>
             </div>

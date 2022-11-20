@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import Spinner from '../components/Spinner';
 import { useAuth } from '../contexts/AuthProvider';
 import useAdmin from '../hooks/useAdmin';
 
@@ -8,7 +9,7 @@ const AdminRoute = ({ children }) => {
     const [isAdmin, isAdminLoading] = useAdmin(user?.email);
 
     if (isAdminLoading) {
-        return <div className='text-center text-3xl mt-10'>Loading...</div>
+        return <Spinner />
     }
 
     if (isAdmin) {

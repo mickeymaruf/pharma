@@ -1,12 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import toast from 'react-hot-toast';
+import { useAuth } from '../../contexts/AuthProvider';
 
 const AllUsers = () => {
+    const { user: currentUser } = useAuth();
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/users');
+            const res = await fetch(`http://localhost:5000/users?email=${currentUser.email}`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            });
             const data = res.json();
             return data;
         }
