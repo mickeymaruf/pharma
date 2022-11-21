@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const app = express();
+const stripe = require("stripe")(process.env.STRIPE_SK);
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 5000;
 const jwt = require('jsonwebtoken');
@@ -33,6 +34,18 @@ const run = async () => {
         const bookingCollection = db.collection("bookings")
         const userCollection = db.collection("users")
         const doctorsCollection = db.collection("doctors")
+        const paymentsCollection = db.collection("payments")
+
+        // NOTE: make sure use veifyAdmin after verifyJWT
+        const verifyAdmin = async (req, res, next) => {
+            const decodedEmail = req.decoded?.email;
+
+            const user = await userCollection.findOne({ email: decodedEmail });
+            if (user.role !== "admin") {
+                return res.status(403).send({ message: 'forbidden access' });
+            }
+            next();
+        }
 
         app.get('/appointments', async (req, res) => {
             const date = req.query.date;
@@ -77,6 +90,11 @@ const run = async () => {
             const bookings = await bookingCollection.find(query).toArray();
             res.send(bookings);
         })
+        app.get('/bookings/:_id', async (req, res) => {
+            const _id = req.params._id
+            const booking = await bookingCollection.findOne({ _id: ObjectId(_id) });
+            res.send(booking);
+        })
         // jwt
         app.get('/jwt', async (req, res) => {
             const email = req.query.email;
@@ -98,12 +116,6 @@ const run = async () => {
             const email = req.query.email;
             if (decodedEmail !== email) {
                 return res.status(403).send({ message: 'forbidden access' });
-            }
-
-            // verify admin
-            const user = await userCollection.findOne({ email });
-            if (user.role !== "admin") {
-                return res.status(403).send([]);
             }
 
             const users = await userCollection.find({}).toArray();
@@ -133,14 +145,50 @@ const run = async () => {
             res.send(result);
         })
         // doctors
-        app.post('/doctors', async (req, res) => {
+        app.get('/doctors', verifyJWT, verifyAdmin, async (req, res) => {
+            const doctors = await doctorsCollection.find({}).toArray();
+            res.send(doctors);
+        })
+        app.post('/doctors', verifyJWT, verifyAdmin, async (req, res) => {
             const doctor = req.body;
             const result = await doctorsCollection.insertOne(doctor);
             res.send(result);
         })
-        app.get('/doctors', async (req, res) => {
-            const doctors = await doctorsCollection.find({}).toArray();
-            res.send(doctors);
+        app.delete('/doctors/:id', verifyJWT, verifyAdmin, async (req, res) => {
+            const query = { _id: ObjectId(req.params.id) }
+            const result = await doctorsCollection.deleteOne(query);
+            res.send(result);
+        })
+        // payment
+        app.post("/create-payment-intent", async (req, res) => {
+            const booking = req.body;
+            const price = booking.price;
+            const amount = price * 100;
+
+            const paymentIntent = await stripe.paymentIntents.create({
+                currency: "usd",
+                amount,
+                "payment_method_types": [
+                    "card"
+                ],
+            })
+            res.send({
+                clientSecret: paymentIntent.client_secret,
+            });
+        })
+        app.post('/payments', async (req, res) => {
+            const payment = req.body;
+            const result = await paymentsCollection.insertOne(payment);
+            // 
+            const filter = { _id: ObjectId(payment.bookingId) }
+            const updateDoc = {
+                $set: {
+                    paid: true,
+                    transactionId: payment.transactionId
+                }
+            }
+            const updateResult = await bookingCollection.updateOne(filter, updateDoc);
+            res.send(result);
         })
     } finally { }
 }
