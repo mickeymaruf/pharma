@@ -10,13 +10,13 @@ const DashboardNav = () => {
 
     // shared navlinks
     const navLinks = <>
-        <Link to="/"><li className="hover:bg-white p-3 rounded hover:text-primary cursor-pointer">Home</li></Link>
-        <Link to="/appointment"><li className="hover:bg-white p-3 rounded hover:text-primary cursor-pointer">Appointment</li></Link>
-        <Link to="/"><li className="hover:bg-white p-3 rounded hover:text-primary cursor-pointer">Contact</li></Link>
+        <Link to="/"><li className="hover:bg-white p-3 rounded hover:text-[#115278] cursor-pointer">Home</li></Link>
+        <Link to="/appointment"><li className="hover:bg-white p-3 rounded hover:text-[#115278] cursor-pointer">Appointment</li></Link>
+        <Link to="/"><li className="hover:bg-white p-3 rounded hover:text-[#115278] cursor-pointer">Contact</li></Link>
         {
             user?.uid ?
                 <>
-                    <Link to="/dashboard"><li className="hover:bg-white p-3 rounded hover:text-primary cursor-pointer">Dashboard</li></Link>
+                    <Link to="/dashboard"><li className="hover:bg-white p-3 rounded hover:text-[#115278] cursor-pointer">Dashboard</li></Link>
                     <li><button onClick={logOut} className='btn-secondary text-white mt-3 md:mt-0'>Log Out</button></li>
                 </>
                 :

@@ -12,6 +12,8 @@ import AllUsers from '../Pages/Dashboard/AllUsers'
 import AdminRoute from './AdminRoute'
 import AddDoctor from '../Pages/Dashboard/Doctors/AddDoctor'
 import ManageDoctors from '../Pages/Dashboard/Doctors/ManageDoctors'
+import ErrorPage from '../Pages/Shared/ErrorPage'
+import Payment from '../Pages/Dashboard/Payment/Payment'
 
 const router = createBrowserRouter([
     {
@@ -34,7 +36,8 @@ const router = createBrowserRouter([
                 path: '/register',
                 element: <Register />
             }
-        ]
+        ],
+        errorElement: <ErrorPage />
     },
     {
         path: '/dashboard',
@@ -56,7 +59,13 @@ const router = createBrowserRouter([
                 path: "/dashboard/manage-doctors",
                 element: <AdminRoute><ManageDoctors /></AdminRoute>
             },
-        ]
+            {
+                path: "/dashboard/payment/:id",
+                element: <AdminRoute><Payment /></AdminRoute>,
+                loader: ({ params }) => fetch(`http://localhost:5000/bookings/${params.id}`)
+            },
+        ],
+        errorElement: <ErrorPage />
     }
 ])
 

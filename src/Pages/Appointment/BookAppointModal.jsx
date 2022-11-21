@@ -5,16 +5,17 @@ import toast from 'react-hot-toast';
 
 const BookAppointModal = ({ appointment, date, setAppointment, refetch }) => {
     const { user } = useAuth();
-    const { name, slots } = appointment;
+    const { name, slots, price } = appointment;
     const { register, handleSubmit } = useForm({
         defaultValues: {
             patient: user?.displayName,
             email: user?.email,
-            phone: user?.phoneNumber
+            phone: user?.phoneNumber,
         }
     });
     const onSubmit = data => {
         data.treatment = name;
+        data.price = price;
         fetch('http://localhost:5000/bookings', {
             method: 'POST',
             headers: {
@@ -37,8 +38,8 @@ const BookAppointModal = ({ appointment, date, setAppointment, refetch }) => {
     return (
         <div className='text-secondary'>
             <input type="checkbox" id="BookAppointModal" className="modal-toggle" />
-            <div className="modal">
-                <div className="modal-box relative">
+            <div className="modal bg-black bg-opacity-30">
+                <div className="modal-box relative bg-white">
                     <label htmlFor="BookAppointModal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <h3 className="text-lg font-bold mb-4">{name}</h3>
                     <form onSubmit={handleSubmit(onSubmit)} className='grid gap-3'>
@@ -51,7 +52,7 @@ const BookAppointModal = ({ appointment, date, setAppointment, refetch }) => {
                         <input {...register("patient", { required: true })} type="text" placeholder="Your name" className="input w-full bg-gray-200" readOnly />
                         <input {...register("email", { required: true })} type="text" placeholder="Your email address" className="input w-full bg-gray-200" readOnly />
                         <input {...register("phone", { required: true })} type="text" placeholder="Your phone number" className="input border-[#1152783b] w-full" />
-                        <input className='block w-full btn-secondary py-3 font-medium text-white cursor-pointer' type="submit" value="Submit" />
+                        <input className='block w-full rounded-full py-3 font-medium bg-[#115278] text-white cursor-pointer' type="submit" value="Submit" />
                     </form>
                 </div>
             </div>

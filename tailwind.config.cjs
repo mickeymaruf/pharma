@@ -5,14 +5,7 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   daisyui: {
-    themes: [
-      {
-        pharma: {
-          primary: "#23C3BB",
-          secondary: "#115278",
-        }
-      }
-    ]
+    themes: []
   },
   theme: {
     extend: {},

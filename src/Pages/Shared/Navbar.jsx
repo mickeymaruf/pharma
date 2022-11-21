@@ -31,13 +31,13 @@ const Navbar = () => {
     }
     // shared navlinks
     const navLinks = <>
-        <Link onClick={closeMenuBtn} to="/"><li className={`hover:bg-white p-3 rounded hover:text-primary cursor-pointer ${location.pathname !== "/" && "text-secondary"}`}>Home</li></Link>
-        <Link onClick={closeMenuBtn} to="/appointment"><li className={`hover:bg-white p-3 rounded hover:text-primary cursor-pointer ${location.pathname !== "/" && "text-secondary"}`}>Appointment</li></Link>
-        <Link onClick={closeMenuBtn} to="/"><li className={`hover:bg-white p-3 rounded hover:text-primary cursor-pointer ${location.pathname !== "/" && "text-secondary"}`}>Contact</li></Link>
+        <Link onClick={closeMenuBtn} to="/"><li className={`hover:bg-white p-3 rounded hover:text-[#115278] cursor-pointer ${location.pathname !== "/" && "text-[#115278]"}`}>Home</li></Link>
+        <Link onClick={closeMenuBtn} to="/appointment"><li className={`hover:bg-white p-3 rounded hover:text-[#115278] cursor-pointer ${location.pathname !== "/" && "text-[#115278]"}`}>Appointment</li></Link>
+        <Link onClick={closeMenuBtn} to="/"><li className={`hover:bg-white p-3 rounded hover:text-[#115278] cursor-pointer ${location.pathname !== "/" && "text-[#115278]"}`}>Contact</li></Link>
         {
             user?.uid ?
                 <>
-                    <Link onClick={closeMenuBtn} to="/dashboard"><li className={`hover:bg-white p-3 rounded hover:text-primary cursor-pointer ${location.pathname !== "/" && "text-secondary"}`}>Dashboard</li></Link>
+                    <Link onClick={closeMenuBtn} to="/dashboard"><li className={`hover:bg-white p-3 rounded hover:text-[#115278] cursor-pointer ${location.pathname !== "/" && "text-[#115278]"}`}>Dashboard</li></Link>
                     <li onClick={closeMenuBtn}><button onClick={logOut} className='btn-secondary text-white mt-3 md:mt-0'>Log Out</button></li>
                 </>
                 :
